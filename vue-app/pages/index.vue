@@ -90,6 +90,14 @@ function drop(e: DragEvent, statusToDrop: SprintStatus) {
 
   if (oldStatus && oldStatus.id === statusToDrop.id) return;
 
+  // remove from old status column
+  if (oldStatus) {
+    const oldTaskIndex = oldStatus.tasks.findIndex(
+      (c) => c.id === draggeditem.value?.id
+    );
+    oldStatus.tasks.splice(oldTaskIndex, 1);
+  }
+
   // Add new item to new status column
   const z = { ...statusToDrop };
   const i = statuses.value.findIndex((a) => a.id === z.id);
@@ -150,24 +158,24 @@ const dragStatusId = computed(
           />
         </div>
       </div>
-      <div class="flex gap-4">
+      <div class="flex gap-4 items-stretch">
         <div
           v-for="status in statuses"
           :key="`status-${status.id}`"
-          class="w-60 border border-slate-300 rounded p-2"
+          class="w-60 border border-slate-300 rounded p-2 flex flex-col"
         >
           <h1 class="font-semibold mb-4">
             {{ status.name }}
           </h1>
-          <div class="relative h-screen">
+          <div class="flex-grow">
             <div
               v-if="isDragging && status.id !== dragStatusId"
-              class="bg-blue-200 absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center rounded-md"
+              class="bg-blue-200 h-full flex justify-center items-center rounded-md"
               dropzone
               @dragover.prevent
               @drop="drop($event, status)"
             >
-              Dragging
+              {{ status.name }}
             </div>
             <div class="space-y-4">
               <div

@@ -28,6 +28,7 @@ const statuses = ref<SprintStatus[]>([
   },
 ]);
 
+// Status
 const newStatus = ref("");
 const addNewInput = ref<ComponentPublicInstance<typeof UInput> | null>(null);
 const isAddNewStatusVisible = ref(false);
@@ -54,7 +55,7 @@ async function toggleAddNewStatus() {
   }
 }
 
-// Create Task
+// Task
 const [isCreateNewTaskOpen, toggleNewTask] = useToggle(false);
 
 const newTask = ref({
